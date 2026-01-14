@@ -22,6 +22,7 @@ npm install
 PORT=3000
 MONGO_URL=<your-mongodb-url>
 npm run dev
+```
 
 Logs:
 ✅ MongoDB connection established successfully
