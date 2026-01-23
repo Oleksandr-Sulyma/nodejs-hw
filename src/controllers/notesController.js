@@ -7,12 +7,12 @@ export const getRoot = async (req, res) => {
 
 export const getAllNotes = async (req, res) => {
   const {
-    page = 1,
-    perPage = 10,
+    page,
+    perPage,
     tag,
     search,
-    sortBy = '_id',
-    sortOrder = 'asc',
+    sortBy,
+    sortOrder,
   } = req.query;
 
   const skip = (page - 1) * perPage;
