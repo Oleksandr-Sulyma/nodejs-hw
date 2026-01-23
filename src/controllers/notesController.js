@@ -1,6 +1,10 @@
 import { Note } from '../models/note.js';
 import createHttpError from 'http-errors';
 
+export const getRoot = async (req, res) => {
+  res.json({ message: 'API is running 🚀' });
+};
+
 export const getAllNotes = async (req, res) => {
   const {
     page = 1,

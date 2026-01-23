@@ -5,6 +5,7 @@ import {
   createNote,
   deleteNote,
   updateNote,
+  getRoot
 } from '../controllers/notesController.js';
 
 import { celebrate } from 'celebrate';
@@ -18,6 +19,8 @@ router.get('/notes/:noteId', celebrate(noteIdSchema), getNoteById);
 router.post('/notes',celebrate(createNoteSchema), createNote);
 router.delete('/notes/:noteId',celebrate(noteIdSchema), deleteNote);
 router.patch('/notes/:noteId', celebrate(updateNoteSchema), updateNote);
+router.get('/',getRoot);
+
 
 
 export default router;
