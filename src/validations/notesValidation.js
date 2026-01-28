@@ -10,7 +10,7 @@ export const getAllNotesSchema = {
     search: Joi.string().trim().allow(''),
     sortBy: Joi.string()
       .valid('_id', 'tag', 'title', 'createdAt')
-      .default('_id'),
+      .default('createdAt'),
     sortOrder: Joi.string().valid('asc', 'desc').default('asc'),
   }),
 };

@@ -1,12 +1,14 @@
 import { Note } from '../models/note.js';
 import createHttpError from 'http-errors';
 
-export const getRoot = async (req, res) => {
-  res.json({ message: 'API is running 🚀' });
-};
-
 export const getAllNotes = async (req, res) => {
-  const { page, perPage, tag, search, sortBy, sortOrder } = req.query;
+  const { page, perPage, tag, search, sortBy = 'createdAt', sortOrder = 'asc' } = req.query;
+
+  const allowedSortFields = ['title', 'tag', 'createdAt', '_id'];
+  const actualSortBy = allowedSortFields.includes(sortBy) ? sortBy : 'createdAt';
+
+  const allowedOrders = ['asc', 'desc'];
+  const actualSortOrder = allowedOrders.includes(sortOrder) ? sortOrder : 'asc';
 
   const skip = (page - 1) * perPage;
 
@@ -25,7 +27,7 @@ export const getAllNotes = async (req, res) => {
     notesQuery
       .skip(skip)
       .limit(perPage)
-      .sort({ [sortBy]: sortOrder }),
+      .sort({ [actualSortBy]: actualSortOrder }),
   ]);
 
   const totalPages = Math.ceil(totalNotes / perPage);
@@ -58,7 +60,7 @@ export const createNote = async (req, res) => {
 
 export const deleteNote = async (req, res, next) => {
   const { noteId } = req.params;
-  const note = await Note.findByIdAndDelete({
+  const note = await Note.findOneAndDelete({
      _id: noteId,
     userId: req.user._id,
   });
@@ -73,7 +75,7 @@ export const deleteNote = async (req, res, next) => {
 
 export const updateNote = async (req, res, next) => {
   const { noteId } = req.params;
-  const note = await Note.findByIdAndUpdate(
+  const note = await Note.findOneAndUpdate(
     {
       _id: noteId,
       userId: req.user._id,
